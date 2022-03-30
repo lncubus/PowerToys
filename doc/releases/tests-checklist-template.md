@@ -18,17 +18,23 @@
 
 ## Localization
  Change the Winodws language to a language different than English. Then verify if the following screens change their language:
- - [ ] System tray menu items
- - [ ] Settings
+ - [x] System tray menu items
+ - [x] Settings
+ Awake, Fancy Zones, Powwer Rename, Power Toys Run don't have localized names
+ Toys sorted on their English names, the order seems weird
  - [ ] OOBE (What's new)
- - [ ] Keyboard Manager Editor
- - [ ] Color Picker (check the tooltips)
+ What's new isn't localized
+ - [x] Keyboard Manager Editor
+ - [x] Color Picker (check the tooltips)
  - [ ] FancyZones Editor
- - [ ] Power Rename (new WinUI 3 may not be localized)
- - [ ] PowerToys Run ("Start typing" string is localized, for example)
- - [ ] Image Resizer
+ Fail to start for v0.56.2
+ - [x] Power Rename (new WinUI 3 may not be localized)
+ - [x] PowerToys Run ("Start typing" string is localized, for example)
+ - [x] Image Resizer
  - [ ] Shortcut Guide (Windows controls are localized)
+ Shortcut descriptions are not localized
  - [ ] File Explorer menu entries for Image Resizer and Power Rename
+ Power Rename is fine, Image Resizer can't start any more
 
 ## General Settings
 

@@ -39,6 +39,30 @@
         <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.shareTarget">
+          <uap:ShareTarget Description="Send to PowerRename">
+            <uap:SupportedFileTypes>
+              <uap:FileType>*</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap:DataFormat>StorageItems</uap:DataFormat>
+          </uap:ShareTarget>
+        </uap:Extension>
+        <desktop4:Extension Category="windows.fileExplorerContextMenus">
+          <desktop4:FileExplorerContextMenus>
+            <desktop5:ItemType Type="*">
+              <desktop5:Verb Id="CommandPowerRename" Clsid="0440049F-D1DC-4E46-B27B-98393D79486B" />
+            </desktop5:ItemType>
+          </desktop4:FileExplorerContextMenus>
+        </desktop4:Extension>
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:SurrogateServer DisplayName="Context menu verb handler">
+              <com:Class Id="0440049F-D1DC-4E46-B27B-98393D79486B" Path="PowerToys.PowerRenameExt.dll" ThreadingModel="STA"/>
+            </com:SurrogateServer>
+          </com:ComServer>
+        </com:Extension>
+      </Extensions>
     </Application>
   </Applications>
   <build:Metadata>

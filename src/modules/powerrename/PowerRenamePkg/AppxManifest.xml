@@ -34,24 +34,16 @@
     <rescap:Capability Name="unvirtualizedResources" />
   </Capabilities>
   <Applications>
-    <Application Id="PowerRename" Executable="PowerToys.PowerRename.exe" uap10:TrustLevel="mediumIL" uap10:RuntimeBehavior="win32App">
-      <uap:VisualElements AppListEntry="none" DisplayName="Power Rename" Description="Power Rename" BackgroundColor="transparent" Square150x150Logo="Images\Square150x150Logo.png" Square44x44Logo="Images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+    <Application Id="PowerRenameContextMenu" Executable="PowerToys.PowerRename.exe" uap10:TrustLevel="mediumIL" uap10:RuntimeBehavior="win32App">
+      <uap:VisualElements AppListEntry="none" DisplayName="PowerRenameContextMenu" Description="PowerRenameContextMenu" BackgroundColor="transparent" Square150x150Logo="Images\Square150x150Logo.png" Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" Square310x310Logo="Images\LargeTile.png" Square71x71Logo="Images\SmallTile.png"></uap:DefaultTile>
         <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.shareTarget">
-          <uap:ShareTarget Description="Send to PowerRename">
-            <uap:SupportedFileTypes>
-              <uap:FileType>*</uap:FileType>
-            </uap:SupportedFileTypes>
-            <uap:DataFormat>StorageItems</uap:DataFormat>
-          </uap:ShareTarget>
-        </uap:Extension>
         <desktop4:Extension Category="windows.fileExplorerContextMenus">
           <desktop4:FileExplorerContextMenus>
             <desktop5:ItemType Type="*">
-              <desktop5:Verb Id="CommandPowerRename" Clsid="0440049F-D1DC-4E46-B27B-98393D79486B" />
+              <desktop5:Verb Id="PowerRenameCommand" Clsid="0440049F-D1DC-4E46-B27B-98393D79486B" />
             </desktop5:ItemType>
           </desktop4:FileExplorerContextMenus>
         </desktop4:Extension>
@@ -65,15 +57,4 @@
       </Extensions>
     </Application>
   </Applications>
-  <build:Metadata>
-    <build:Item Name="Microsoft.Build.DesktopBridge.Tasks.dll" Version="17.2.32408.312" />
-    <build:Item Name="TargetFrameworkMoniker" Value=".NETFramework,Version=v4.5.1" />
-    <build:Item Name="VisualStudio" Version="17.0" />
-    <build:Item Name="VisualStudioEdition" Value="Microsoft Visual Studio Community 2022" />
-    <build:Item Name="OperatingSystem" Version="10.0.22000.675 (WinBuild.160101.0800)" />
-    <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="17.2.32427.441" />
-    <build:Item Name="ProjectGUID" Value="9c8aa078-ba74-4d00-8e40-dc70f65c92df" />
-    <build:Item Name="Microsoft.UniversalCRT.Debug" Version="10.0.18362.0" />
-    <build:Item Name="makepri.exe" Version="10.0.22000.194 (WinBuild.160101.0800)" />
-  </build:Metadata>
 </Package>

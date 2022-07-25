@@ -32,16 +32,16 @@ namespace Microsoft.PowerToys.Run.Plugin.WindowsTerminal
 
         public string Description => Resources.plugin_description;
 
-        public IEnumerable<PluginAdditionalOption> AdditionalOptions => new List<PluginAdditionalOption>()
+        public IEnumerable<IPluginAdditionalOption> AdditionalOptions => new List<IPluginAdditionalOption>()
         {
-            new PluginAdditionalOption()
+            new PluginAdditionalOptionBool()
             {
                 Key = OpenNewTab,
                 DisplayLabel = Resources.open_new_tab,
                 Value = false,
             },
 
-            new PluginAdditionalOption()
+            new PluginAdditionalOptionBool()
             {
                 Key = ShowHiddenProfiles,
                 DisplayLabel = Resources.show_hidden_profiles,
@@ -176,8 +176,14 @@ namespace Microsoft.PowerToys.Run.Plugin.WindowsTerminal
 
             if (settings != null && settings.AdditionalOptions != null)
             {
-                openNewTab = settings.AdditionalOptions.FirstOrDefault(x => x.Key == OpenNewTab)?.Value ?? false;
-                showHiddenProfiles = settings.AdditionalOptions.FirstOrDefault(x => x.Key == ShowHiddenProfiles)?.Value ?? false;
+                openNewTab = settings.AdditionalOptions.
+                    OfType<PluginAdditionalOptionBool>().
+                    FirstOrDefault(x => x.Key == OpenNewTab)?.
+                    Value ?? false;
+                showHiddenProfiles = settings.AdditionalOptions.
+                    OfType<PluginAdditionalOptionBool>().
+                    FirstOrDefault(x => x.Key == ShowHiddenProfiles)?.
+                    Value ?? false;
             }
 
             _openNewTab = openNewTab;

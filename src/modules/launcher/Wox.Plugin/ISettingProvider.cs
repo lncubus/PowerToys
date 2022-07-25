@@ -14,6 +14,6 @@ namespace Wox.Plugin
 
         void UpdateSettings(PowerLauncherPluginSettings settings);
 
-        IEnumerable<PluginAdditionalOption> AdditionalOptions { get; }
+        IEnumerable<IPluginAdditionalOption> AdditionalOptions { get; }
     }
 }

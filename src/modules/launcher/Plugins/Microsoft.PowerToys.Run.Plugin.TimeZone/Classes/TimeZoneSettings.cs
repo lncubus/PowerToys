@@ -33,23 +33,23 @@ namespace Microsoft.PowerToys.Run.Plugin.TimeZone.Classes
         /// Return a list with all settings. Additional
         /// </summary>
         /// <returns>A list with all settings.</returns>
-        internal static List<PluginAdditionalOption> GetAdditionalOptions()
+        internal static List<IPluginAdditionalOption> GetAdditionalOptions()
         {
-            var optionList = new List<PluginAdditionalOption>
+            var optionList = new List<IPluginAdditionalOption>
             {
-                new PluginAdditionalOption
+                new PluginAdditionalOptionBool
                 {
                     Key = "ShowTimeZoneNames",
                     DisplayLabel = Resources.ShowTimeZoneNames,
                     Value = true,
                 },
-                new PluginAdditionalOption
+                new PluginAdditionalOptionBool
                 {
                     Key = "ShowTimeNames",
                     DisplayLabel = Resources.ShowTimeNames,
                     Value = true,
                 },
-                new PluginAdditionalOption
+                new PluginAdditionalOptionBool
                 {
                     Key = "ShowMilitaryTimeZoneNames",
                     DisplayLabel = Resources.ShowMilitaryTimeZoneNames,
@@ -84,12 +84,15 @@ namespace Microsoft.PowerToys.Run.Plugin.TimeZone.Classes
         /// <returns>A settings value.</returns>
         private static bool GetSettingOrDefault(PowerLauncherPluginSettings settings, string name)
         {
-            var option = settings.AdditionalOptions.FirstOrDefault(x => x.Key == name);
+            var option = settings.AdditionalOptions.FirstOrDefault(x => x.Key == name) as PluginAdditionalOptionBool;
 
             // As a fall-back if a setting isn't available, we use the value defined in the method GetAdditionalOptions()
-            var settingsValue = option?.Value
-                ?? GetAdditionalOptions().FirstOrDefault(x => x.Key == name)?.Value
-                ?? default;
+            if (option == null)
+            {
+                option = GetAdditionalOptions().FirstOrDefault(x => x.Key == name) as PluginAdditionalOptionBool;
+            }
+
+            var settingsValue = option?.Value ?? default;
 
             return settingsValue;
         }

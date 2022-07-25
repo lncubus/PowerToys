@@ -51,9 +51,9 @@ namespace Microsoft.Plugin.Indexer
 
         public string Description => Properties.Resources.Microsoft_plugin_indexer_plugin_description;
 
-        public IEnumerable<PluginAdditionalOption> AdditionalOptions => new List<PluginAdditionalOption>()
+        public IEnumerable<IPluginAdditionalOption> AdditionalOptions => new List<IPluginAdditionalOption>()
         {
-            new PluginAdditionalOption()
+            new PluginAdditionalOptionBool()
             {
                 Key = DisableDriveDetectionWarning,
                 DisplayLabel = Properties.Resources.disable_drive_detection_warning,
@@ -230,7 +230,8 @@ namespace Microsoft.Plugin.Indexer
 
             if (settings.AdditionalOptions != null)
             {
-                var option = settings.AdditionalOptions.FirstOrDefault(x => x.Key == DisableDriveDetectionWarning);
+                var option = settings.AdditionalOptions.FirstOrDefault(x => x.Key == DisableDriveDetectionWarning)
+                    as PluginAdditionalOptionBool;
 
                 driveDetection = option == null ? false : option.Value;
             }

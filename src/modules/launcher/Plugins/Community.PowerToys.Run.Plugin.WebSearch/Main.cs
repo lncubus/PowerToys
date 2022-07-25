@@ -36,9 +36,9 @@ namespace Community.PowerToys.Run.Plugin.WebSearch
 
         public string Description => Properties.Resources.plugin_description;
 
-        public IEnumerable<PluginAdditionalOption> AdditionalOptions => new List<PluginAdditionalOption>()
+        public IEnumerable<IPluginAdditionalOption> AdditionalOptions => new List<IPluginAdditionalOption>()
         {
-            new PluginAdditionalOption()
+            new PluginAdditionalOptionBool()
             {
                 Key = NotGlobalIfUri,
                 DisplayLabel = Properties.Resources.plugin_global_if_uri,
@@ -214,7 +214,10 @@ namespace Community.PowerToys.Run.Plugin.WebSearch
 
         public void UpdateSettings(PowerLauncherPluginSettings settings)
         {
-            _notGlobalIfUri = settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == NotGlobalIfUri)?.Value ?? false;
+            _notGlobalIfUri = (settings?.
+                AdditionalOptions?.
+                FirstOrDefault(x => x.Key == NotGlobalIfUri)
+                as PluginAdditionalOptionBool)?.Value ?? false;
         }
 
         public void ReloadData()

@@ -104,56 +104,56 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// Return a list with all additional plugin options.
         /// </summary>
         /// <returns>A list with all additional plugin options.</returns>
-        internal static List<PluginAdditionalOption> GetAdditionalOptions()
+        internal static List<IPluginAdditionalOption> GetAdditionalOptions()
         {
-            var optionList = new List<PluginAdditionalOption>
+            var optionList = new List<IPluginAdditionalOption>
             {
-                new PluginAdditionalOption
+                new PluginAdditionalOptionBool
                 {
                     Key = nameof(ResultsFromVisibleDesktopOnly),
                     DisplayLabel = Resources.wox_plugin_windowwalker_SettingResultsVisibleDesktop,
                     Value = false,
                 },
-                new PluginAdditionalOption
+                new PluginAdditionalOptionBool
                 {
                     Key = nameof(SubtitleShowPid),
                     DisplayLabel = Resources.wox_plugin_windowwalker_SettingSubtitlePid,
                     Value = false,
                 },
-                new PluginAdditionalOption
+                new PluginAdditionalOptionBool
                 {
                     Key = nameof(SubtitleShowDesktopName),
                     DisplayLabel = Resources.wox_plugin_windowwalker_SettingSubtitleDesktopName,
                     DisplayDescription = Resources.wox_plugin_windowwalker_SettingSubtitleDesktopName_Description,
                     Value = true,
                 },
-                new PluginAdditionalOption
+                new PluginAdditionalOptionBool
                 {
                     Key = nameof(ConfirmKillProcess),
                     DisplayLabel = Resources.wox_plugin_windowwalker_SettingConfirmKillProcess,
                     Value = true,
                 },
-                new PluginAdditionalOption
+                new PluginAdditionalOptionBool
                 {
                     Key = nameof(KillProcessTree),
                     DisplayLabel = Resources.wox_plugin_windowwalker_SettingKillProcessTree,
                     DisplayDescription = Resources.wox_plugin_windowwalker_SettingKillProcessTree_Description,
                     Value = false,
                 },
-                new PluginAdditionalOption
+                new PluginAdditionalOptionBool
                 {
                     Key = nameof(OpenAfterKillAndClose),
                     DisplayLabel = Resources.wox_plugin_windowwalker_SettingOpenAfterKillAndClose,
                     DisplayDescription = Resources.wox_plugin_windowwalker_SettingOpenAfterKillAndClose_Description,
                     Value = false,
                 },
-                new PluginAdditionalOption
+                new PluginAdditionalOptionBool
                 {
                     Key = nameof(HideKillProcessOnElevatedProcesses),
                     DisplayLabel = Resources.wox_plugin_windowwalker_SettingHideKillProcess,
                     Value = false,
                 },
-                new PluginAdditionalOption
+                new PluginAdditionalOptionBool
                 {
                     Key = nameof(HideExplorerSettingInfo),
                     DisplayLabel = Resources.wox_plugin_windowwalker_SettingExplorerSettingInfo,
@@ -194,11 +194,20 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <returns>A settings value.</returns>
         private static bool GetSettingOrDefault(PowerLauncherPluginSettings settings, string name)
         {
-            var option = settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == name);
+            var option = settings?.
+                AdditionalOptions?.
+                FirstOrDefault(x => x.Key == name)
+                as PluginAdditionalOptionBool;
 
             // If a setting isn't available, we use the value defined in the method GetAdditionalOptions() as fallback.
             // We can use First() instead of FirstOrDefault() because the values must exist. Otherwise, we made a mistake when defining the settings.
-            return option?.Value ?? GetAdditionalOptions().First(x => x.Key == name).Value;
+            if (option == null)
+            {
+                option = (PluginAdditionalOptionBool)GetAdditionalOptions().
+                    First(x => x.Key == name);
+            }
+
+            return option.Value;
         }
     }
 }

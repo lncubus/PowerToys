@@ -133,15 +133,15 @@ namespace Microsoft.PowerToys.Settings.UI.Library.ViewModels
             }
         }
 
-        private IEnumerable<PluginAdditionalOptionViewModel> _additionalOptions;
+        private IEnumerable<IPluginAdditionalOptionViewModel> _additionalOptions;
 
-        public IEnumerable<PluginAdditionalOptionViewModel> AdditionalOptions
+        public IEnumerable<IPluginAdditionalOptionViewModel> AdditionalOptions
         {
             get
             {
                 if (_additionalOptions == null)
                 {
-                    _additionalOptions = settings.AdditionalOptions.Select(x => new PluginAdditionalOptionViewModel(x)).ToList();
+                    _additionalOptions = settings.AdditionalOptions.Select(x => PluginAdditionalOptionViewModelFactory.Create(x)).ToList();
                 }
 
                 return _additionalOptions;

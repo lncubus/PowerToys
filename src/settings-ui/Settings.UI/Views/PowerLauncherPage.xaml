@@ -340,7 +340,7 @@
                                                           IsEnabled="{x:Bind Enabled, Mode=OneWay}">
 
                                                     <ListView.ItemTemplate>
-                                                        <DataTemplate x:DataType="ViewModels:PluginAdditionalOptionViewModel">
+                                                        <DataTemplate x:DataType="ViewModels:PluginAdditionalOptionViewModelBool">
                                                             <StackPanel Orientation="Vertical">
                                                                 <Rectangle Style="{StaticResource ExpanderSeparatorStyle}" />
                                                                 <controls:CheckBoxWithDescriptionControl Header="{x:Bind Path=DisplayLabel}" Description="{x:Bind Path=DisplayDescription}"

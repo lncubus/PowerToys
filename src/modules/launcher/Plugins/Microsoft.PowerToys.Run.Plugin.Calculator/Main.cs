@@ -32,17 +32,17 @@ namespace Microsoft.PowerToys.Run.Plugin.Calculator
 
         private bool _disposed;
 
-        public IEnumerable<PluginAdditionalOption> AdditionalOptions => new List<PluginAdditionalOption>()
+        public IEnumerable<IPluginAdditionalOption> AdditionalOptions => new List<IPluginAdditionalOption>()
         {
             // The number examples has to be created at runtime to prevent translation.
-            new PluginAdditionalOption()
+            new PluginAdditionalOptionBool()
             {
                 Key = "InputUseEnglishFormat",
                 DisplayLabel = Resources.wox_plugin_calculator_in_en_format,
                 DisplayDescription = string.Format(CultureInfo.CurrentCulture, Resources.wox_plugin_calculator_in_en_format_description, 1000.55.ToString("N2", new CultureInfo("en-us"))),
                 Value = false,
             },
-            new PluginAdditionalOption()
+            new PluginAdditionalOptionBool()
             {
                 Key = "OutputUseEnglishFormat",
                 DisplayLabel = Resources.wox_plugin_calculator_out_en_format,
@@ -158,10 +158,10 @@ namespace Microsoft.PowerToys.Run.Plugin.Calculator
 
             if (settings != null && settings.AdditionalOptions != null)
             {
-                var optionInputEn = settings.AdditionalOptions.FirstOrDefault(x => x.Key == "InputUseEnglishFormat");
+                var optionInputEn = settings.AdditionalOptions.FirstOrDefault(x => x.Key == "InputUseEnglishFormat") as PluginAdditionalOptionBool;
                 inputUseEnglishFormat = optionInputEn?.Value ?? inputUseEnglishFormat;
 
-                var optionOutputEn = settings.AdditionalOptions.FirstOrDefault(x => x.Key == "OutputUseEnglishFormat");
+                var optionOutputEn = settings.AdditionalOptions.FirstOrDefault(x => x.Key == "OutputUseEnglishFormat") as PluginAdditionalOptionBool;
                 outputUseEnglishFormat = optionOutputEn?.Value ?? outputUseEnglishFormat;
             }
 

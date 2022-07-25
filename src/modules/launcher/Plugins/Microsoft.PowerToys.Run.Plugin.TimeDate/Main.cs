@@ -27,7 +27,7 @@ namespace Microsoft.PowerToys.Run.Plugin.TimeDate
 
         public string Description => GetTranslatedPluginDescription();
 
-        public IEnumerable<PluginAdditionalOption> AdditionalOptions
+        public IEnumerable<IPluginAdditionalOption> AdditionalOptions
         {
             get
             {

@@ -28,6 +28,6 @@ namespace Microsoft.PowerToys.Settings.UI.Library
 
         public string IconPathLight { get; set; }
 
-        public IEnumerable<PluginAdditionalOption> AdditionalOptions { get; set; }
+        public IEnumerable<IPluginAdditionalOption> AdditionalOptions { get; set; }
     }
 }

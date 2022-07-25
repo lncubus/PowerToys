@@ -33,7 +33,12 @@ namespace Microsoft.PowerToys.Settings.UI.Views
         public PowerLauncherPage()
         {
             InitializeComponent();
-            var settingsUtils = new SettingsUtils();
+            var settingsUtils = new SettingsUtils
+            {
+                JsonOptions = new System.Text.Json.JsonSerializerOptions(),
+            };
+            settingsUtils.JsonOptions.Converters.Add(new PluginAdditionalOptionConverter());
+
             _lastIPCMessageSentTick = Environment.TickCount;
             PowerLauncherSettings settings = settingsUtils.GetSettingsOrDefault<PowerLauncherSettings>(PowerLauncherSettings.ModuleName);
             ViewModel = new PowerLauncherViewModel(settings, SettingsRepository<GeneralSettings>.GetInstance(settingsUtils), SendDefaultIPCMessageTimed, App.IsDarkTheme);

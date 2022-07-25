@@ -83,32 +83,32 @@ namespace Microsoft.PowerToys.Run.Plugin.TimeDate.Components
         /// Return a list with all additional plugin options.
         /// </summary>
         /// <returns>A list with all additional plugin options.</returns>
-        internal static List<PluginAdditionalOption> GetAdditionalOptions()
+        internal static List<IPluginAdditionalOption> GetAdditionalOptions()
         {
-            var optionList = new List<PluginAdditionalOption>
+            var optionList = new List<IPluginAdditionalOption>
             {
-                new PluginAdditionalOption()
+                new PluginAdditionalOptionBool()
                 {
                     Key = nameof(OnlyDateTimeNowGlobal),
                     DisplayLabel = Resources.Microsoft_plugin_timedate_SettingOnlyDateTimeNowGlobal,
                     DisplayDescription = Resources.Microsoft_plugin_timedate_SettingOnlyDateTimeNowGlobal_Description,
                     Value = true,
                 },
-                new PluginAdditionalOption()
+                new PluginAdditionalOptionBool()
                 {
                     Key = nameof(TimeWithSeconds),
                     DisplayLabel = Resources.Microsoft_plugin_timedate_SettingTimeWithSeconds,
                     DisplayDescription = Resources.Microsoft_plugin_timedate_SettingTimeWithSeconds_Description,
                     Value = false,
                 },
-                new PluginAdditionalOption()
+                new PluginAdditionalOptionBool()
                 {
                     Key = nameof(DateWithWeekday),
                     DisplayLabel = Resources.Microsoft_plugin_timedate_SettingDateWithWeekday,
                     DisplayDescription = Resources.Microsoft_plugin_timedate_SettingDateWithWeekday_Description,
                     Value = false,
                 },
-                new PluginAdditionalOption()
+                new PluginAdditionalOptionBool()
                 {
                     Key = nameof(HideNumberMessageOnGlobalQuery),
                     DisplayLabel = Resources.Microsoft_plugin_timedate_SettingHideNumberMessageOnGlobalQuery,
@@ -144,11 +144,11 @@ namespace Microsoft.PowerToys.Run.Plugin.TimeDate.Components
         /// <returns>A settings value.</returns>
         private static bool GetSettingOrDefault(PowerLauncherPluginSettings settings, string name)
         {
-            var option = settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == name);
+            var option = settings?.AdditionalOptions?.FirstOrDefault(x => x.Key == name) as PluginAdditionalOptionBool;
 
             // If a setting isn't available, we use the value defined in the method GetAdditionalOptions() as fallback.
             // We can use First() instead of FirstOrDefault() because the values must exist. Otherwise, we made a mistake when defining the settings.
-            return option?.Value ?? GetAdditionalOptions().First(x => x.Key == name).Value;
+            return option?.Value ?? GetAdditionalOptions().OfType<PluginAdditionalOptionBool>().First(x => x.Key == name).Value;
         }
     }
 }

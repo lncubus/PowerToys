@@ -2,32 +2,68 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Microsoft.PowerToys.Settings.UI.Library.ViewModels
 {
-    public class PluginAdditionalOptionViewModel : INotifyPropertyChanged
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Small classes")]
+    public interface IPluginAdditionalOptionViewModel
     {
-        private PluginAdditionalOption _additionalOption;
+        string DisplayDescription { get; }
 
-        internal PluginAdditionalOptionViewModel(PluginAdditionalOption additionalOption)
+        string DisplayLabel { get; }
+
+        event PropertyChangedEventHandler PropertyChanged;
+    }
+
+    public static class PluginAdditionalOptionViewModelFactory
+    {
+        public static IPluginAdditionalOptionViewModel Create(IPluginAdditionalOption additionalOption)
         {
-            _additionalOption = additionalOption;
+            IPluginAdditionalOptionViewModel result = null;
+
+            switch (additionalOption)
+            {
+                case PluginAdditionalOptionEnum optionEnum:
+                    result = new PluginAdditionalOptionViewModelEnum(optionEnum);
+                    break;
+                case PluginAdditionalOptionInt optionInt:
+                    result = new PluginAdditionalOptionViewModelInt(optionInt);
+                    break;
+                case PluginAdditionalOptionBool optionBool:
+                    result = new PluginAdditionalOptionViewModelBool(optionBool);
+                    break;
+            }
+
+            return result;
+        }
+    }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "Small classes")]
+    public abstract class PluginAdditionalOptionViewModel<TOption, TValue> : INotifyPropertyChanged, IPluginAdditionalOptionViewModel
+        where TOption : PluginAdditionalOption<TValue>
+    {
+        protected TOption AdditionalOption { get; init; }
+
+        internal PluginAdditionalOptionViewModel(TOption additionalOption)
+        {
+            AdditionalOption = additionalOption;
         }
 
-        public string DisplayLabel { get => _additionalOption.DisplayLabel; }
+        public string DisplayLabel => AdditionalOption.DisplayLabel;
 
-        public string DisplayDescription { get => _additionalOption.DisplayDescription; }
+        public string DisplayDescription => AdditionalOption.DisplayDescription;
 
-        public bool Value
+        public TValue Value
         {
-            get => _additionalOption.Value;
+            get => AdditionalOption.Value;
             set
             {
-                if (value != _additionalOption.Value)
+                if (!AdditionalOption.Value.Equals(value))
                 {
-                    _additionalOption.Value = value;
+                    AdditionalOption.Value = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -39,5 +75,40 @@ namespace Microsoft.PowerToys.Settings.UI.Library.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "Small classes")]
+    public class PluginAdditionalOptionViewModelBool : PluginAdditionalOptionViewModel<PluginAdditionalOptionBool, bool>
+    {
+        internal PluginAdditionalOptionViewModelBool(PluginAdditionalOptionBool additionalOption)
+            : base(additionalOption)
+        {
+        }
+    }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "Small classes")]
+    public class PluginAdditionalOptionViewModelInt : PluginAdditionalOptionViewModel<PluginAdditionalOptionInt, int>
+    {
+        internal PluginAdditionalOptionViewModelInt(PluginAdditionalOptionInt additionalOption)
+            : base(additionalOption)
+        {
+        }
+
+        public int MinValue => AdditionalOption.MinValue;
+
+        public int MaxValue => AdditionalOption.MaxValue;
+    }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "Small classes")]
+    public class PluginAdditionalOptionViewModelEnum : PluginAdditionalOptionViewModel<PluginAdditionalOptionEnum, int>
+    {
+        internal PluginAdditionalOptionViewModelEnum(PluginAdditionalOptionEnum additionalOption)
+            : base(additionalOption)
+        {
+        }
+
+        public IReadOnlyCollection<string> ValueLabels => AdditionalOption.ValueLabels;
+
+        public IReadOnlyCollection<string> ValueDescriptions => AdditionalOption.ValueDescriptions;
     }
 }

@@ -19,6 +19,8 @@ namespace Microsoft.PowerToys.Settings.UI.Library
         private readonly IFile _file;
         private readonly ISettingsPath _settingsPath;
 
+        public JsonSerializerOptions JsonOptions { get; set; }
+
         public SettingsUtils()
             : this(new FileSystem())
         {
@@ -98,14 +100,14 @@ namespace Microsoft.PowerToys.Settings.UI.Library
         }
 
         // Given the powerToy folder name and filename to be accessed, this function deserializes and returns the file.
-        private T GetFile<T>(string powertoyFolderName = DefaultModuleName, string fileName = DefaultFileName)
+        private T GetFile<T>(string powertoyFolderName = DefaultModuleName, string fileName = DefaultFileName, JsonSerializerOptions options = null)
         {
             // Adding Trim('\0') to overcome possible NTFS file corruption.
             // Look at issue https://github.com/microsoft/PowerToys/issues/6413 you'll see the file has a large sum of \0 to fill up a 4096 byte buffer for writing to disk
             // This, while not totally ideal, does work around the problem by trimming the end.
             // The file itself did write the content correctly but something is off with the actual end of the file, hence the 0x00 bug
             var jsonSettingsString = _file.ReadAllText(_settingsPath.GetSettingsPath(powertoyFolderName, fileName)).Trim('\0');
-            return JsonSerializer.Deserialize<T>(jsonSettingsString);
+            return JsonSerializer.Deserialize<T>(jsonSettingsString, JsonOptions);
         }
 
         // Save settings to a json file.

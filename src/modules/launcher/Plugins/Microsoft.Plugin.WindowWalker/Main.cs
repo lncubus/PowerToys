@@ -59,7 +59,7 @@ namespace Microsoft.Plugin.WindowWalker
             UpdateIconPath(Context.API.GetCurrentTheme());
         }
 
-        public IEnumerable<PluginAdditionalOption> AdditionalOptions
+        public IEnumerable<IPluginAdditionalOption> AdditionalOptions
         {
             get { return WindowWalkerSettings.GetAdditionalOptions(); }
         }

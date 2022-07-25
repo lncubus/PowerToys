@@ -33,21 +33,21 @@ namespace Microsoft.PowerToys.Run.Plugin.System
 
         public bool IsBootedInUefiMode { get; set; }
 
-        public IEnumerable<PluginAdditionalOption> AdditionalOptions => new List<PluginAdditionalOption>()
+        public IEnumerable<IPluginAdditionalOption> AdditionalOptions => new List<IPluginAdditionalOption>()
         {
-            new PluginAdditionalOption()
+            new PluginAdditionalOptionBool()
             {
                 Key = "ConfirmSystemCommands",
                 DisplayLabel = Resources.confirm_system_commands,
                 Value = false,
             },
-            new PluginAdditionalOption()
+            new PluginAdditionalOptionBool()
             {
                 Key = "LocalizeSystemCommands",
                 DisplayLabel = Resources.Use_localized_system_commands,
                 Value = true,
             },
-            new PluginAdditionalOption()
+            new PluginAdditionalOptionBool()
             {
                 Key = "ReduceNetworkResultScore",
                 DisplayLabel = Resources.Reduce_Network_Result_Score,
@@ -185,13 +185,13 @@ namespace Microsoft.PowerToys.Run.Plugin.System
 
             if (settings != null && settings.AdditionalOptions != null)
             {
-                var optionConfirm = settings.AdditionalOptions.FirstOrDefault(x => x.Key == "ConfirmSystemCommands");
+                var optionConfirm = settings.AdditionalOptions.FirstOrDefault(x => x.Key == "ConfirmSystemCommands") as PluginAdditionalOptionBool;
                 confirmSystemCommands = optionConfirm?.Value ?? confirmSystemCommands;
 
-                var optionLocalize = settings.AdditionalOptions.FirstOrDefault(x => x.Key == "LocalizeSystemCommands");
+                var optionLocalize = settings.AdditionalOptions.FirstOrDefault(x => x.Key == "LocalizeSystemCommands") as PluginAdditionalOptionBool;
                 localizeSystemCommands = optionLocalize?.Value ?? localizeSystemCommands;
 
-                var optionNetworkScore = settings.AdditionalOptions.FirstOrDefault(x => x.Key == "ReduceNetworkResultScore");
+                var optionNetworkScore = settings.AdditionalOptions.FirstOrDefault(x => x.Key == "ReduceNetworkResultScore") as PluginAdditionalOptionBool;
                 reduceNetworkResultScore = optionNetworkScore?.Value ?? reduceNetworkResultScore;
             }
 

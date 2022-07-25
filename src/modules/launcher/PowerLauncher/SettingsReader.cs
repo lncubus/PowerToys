@@ -222,7 +222,7 @@ namespace PowerLauncher
                 ActionKeyword = x.Metadata.ActionKeyword,
                 IconPathDark = GetIcon(x.Metadata, x.Metadata.IcoPathDark),
                 IconPathLight = GetIcon(x.Metadata, x.Metadata.IcoPathLight),
-                AdditionalOptions = x.Plugin is ISettingProvider ? (x.Plugin as ISettingProvider).AdditionalOptions : new List<PluginAdditionalOption>(),
+                AdditionalOptions = x.Plugin is ISettingProvider ? (x.Plugin as ISettingProvider).AdditionalOptions : new List<IPluginAdditionalOption>(),
             });
         }
 
@@ -250,14 +250,14 @@ namespace PowerLauncher
             settings.Plugins = defaultPlugins.Values.ToList();
         }
 
-        private static IEnumerable<PluginAdditionalOption> CombineAdditionalOptions(IEnumerable<PluginAdditionalOption> defaultAdditionalOptions, IEnumerable<PluginAdditionalOption> additionalOptions)
+        private static IEnumerable<IPluginAdditionalOption> CombineAdditionalOptions(IEnumerable<IPluginAdditionalOption> defaultAdditionalOptions, IEnumerable<IPluginAdditionalOption> additionalOptions)
         {
             var defaultOptions = defaultAdditionalOptions.ToDictionary(x => x.Key);
             foreach (var option in additionalOptions)
             {
                 if (option.Key != null && defaultOptions.ContainsKey(option.Key))
                 {
-                    defaultOptions[option.Key].Value = option.Value;
+                    defaultOptions[option.Key].CopyValue(option);
                 }
             }
 

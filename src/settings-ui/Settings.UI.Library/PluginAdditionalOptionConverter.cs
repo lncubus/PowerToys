@@ -29,7 +29,7 @@ namespace Microsoft.PowerToys.Settings.UI.Library
             // This is a tricky part we have to determine the type of the object we are reading with its value.
             // If value could be parsed as boolean then it is a bool option.
             // If value could be parsed as integer then it is an integer option.
-            // We don't support enum reading right now as it is handled with integer values.
+            // We don't implement enum reading right now as it is handled with integer values.
             reader.Read();
             while (reader.TokenType == JsonTokenType.PropertyName)
             {
@@ -50,21 +50,26 @@ namespace Microsoft.PowerToys.Settings.UI.Library
                         break;
                     case "Value":
                         reader.Read();
-                        if (reader.TokenType == JsonTokenType.True || reader.TokenType == JsonTokenType.False)
+                        switch (reader.TokenType)
                         {
-                            var boolValue = reader.GetBoolean();
-                            result = new PluginAdditionalOptionBool()
-                            {
-                                Value = boolValue,
-                            };
-                        }
-                        else if (reader.TokenType == JsonTokenType.Number)
-                        {
-                            int intValue = reader.GetInt32();
-                            result = new PluginAdditionalOptionInt()
-                            {
-                                Value = intValue,
-                            };
+                            case JsonTokenType.True:
+                            case JsonTokenType.False:
+                                var boolValue = reader.GetBoolean();
+                                result = new PluginAdditionalOptionBool()
+                                {
+                                    Value = boolValue,
+                                };
+                                break;
+                            case JsonTokenType.Number:
+                                var intValue = reader.GetInt32();
+                                result = new PluginAdditionalOptionInt()
+                                {
+                                    Value = intValue,
+                                };
+                                break;
+                            default:
+                                reader.Skip();
+                                break;
                         }
 
                         break;

@@ -16,6 +16,7 @@
     <Page.Resources>
         <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter"/>
+
     </Page.Resources>
 
     <controls:SettingsPageControl x:Uid="PowerLauncher"
@@ -338,18 +339,6 @@
                                                 <ListView ItemsSource="{x:Bind Path=AdditionalOptions}"
                                                           SelectionMode="None"
                                                           IsEnabled="{x:Bind Enabled, Mode=OneWay}">
-
-                                                    <ListView.ItemTemplate>
-                                                        <DataTemplate x:DataType="ViewModels:PluginAdditionalOptionViewModelBool">
-                                                            <StackPanel Orientation="Vertical">
-                                                                <Rectangle Style="{StaticResource ExpanderSeparatorStyle}" />
-                                                                <controls:CheckBoxWithDescriptionControl Header="{x:Bind Path=DisplayLabel}" Description="{x:Bind Path=DisplayDescription}"
-                                                                      IsChecked="{x:Bind Path=Value, Mode=TwoWay}"
-                                                                      Margin="56, 0, 40, 16"/>
-                                                            </StackPanel>
-
-                                                        </DataTemplate>
-                                                    </ListView.ItemTemplate>
                                                 </ListView>
 
                                                 <Rectangle Style="{StaticResource ExpanderSeparatorStyle}" />
